@@ -64,10 +64,15 @@ module.exports = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: 0 },
         },
+        grid: {
+          "0%": { transform: "translateY(0)" },
+          "100%": { transform: "translateY(calc(var(--cell-size) * -1))" }
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "grid": "grid 5s linear infinite",
       },
     },
   },

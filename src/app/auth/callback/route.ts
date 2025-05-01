@@ -2,30 +2,33 @@ import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: Request) {
   const requestUrl = new URL(request.url);
   const code = requestUrl.searchParams.get('code');
 
-  if (process.env.NODE_ENV === 'development') {
-    console.log(`[Auth Callback] Processing callback, code exists: ${!!code}`);
-  }
+  console.log(`[Auth Callback] Processing callback, code exists: ${!!code}`);
 
   if (code) {
     try {
-      const supabase = createRouteHandlerClient({ cookies });
+      const cookieStore = cookies();
+      const supabase = createRouteHandlerClient({ cookies: () => cookieStore });
       
-      if (process.env.NODE_ENV === 'development') {
-        console.log(`[Auth Callback] Exchanging code for session`);
-      }
+      console.log(`[Auth Callback] Exchanging code for session`);
       
-      await supabase.auth.exchangeCodeForSession(code);
+      const { data, error } = await supabase.auth.exchangeCodeForSession(code);
       
-      if (process.env.NODE_ENV === 'development') {
-        console.log(`[Auth Callback] Session exchange complete, redirecting to dashboard`);
+      if (error) {
+        console.error('[Auth Callback] Error exchanging code for session:', error.message);
+      } else {
+        console.log(`[Auth Callback] Session exchange successful for user: ${data.user?.email}`);
       }
     } catch (error) {
       console.error('[Auth Callback] Error exchanging code for session:', error);
     }
+  } else {
+    console.log('[Auth Callback] No code parameter found in URL');
   }
 
   // URL to redirect to after sign in process completes

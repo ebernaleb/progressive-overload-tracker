@@ -119,11 +119,11 @@ export default function Sidebar() {
             <button onClick={() => handleNavigation('/')} className="block w-full text-left py-2 px-4 rounded-lg hover:bg-blue-50 text-gray-800 hover:text-blue-600 transition-colors">
               Home
             </button>
-            <button onClick={() => handleNavigation('/dashboard')} className="block w-full text-left py-2 px-4 rounded-lg hover:bg-blue-50 text-gray-800 hover:text-blue-600 transition-colors">
-              Dashboard
-            </button>
             <button onClick={() => handleNavigation('/coaching')} className="block w-full text-left py-2 px-4 rounded-lg hover:bg-blue-50 text-gray-800 hover:text-blue-600 transition-colors">
               Coaching
+            </button>
+            <button onClick={() => handleNavigation('/dashboard')} className="block w-full text-left py-2 px-4 rounded-lg hover:bg-blue-50 text-gray-800 hover:text-blue-600 transition-colors">
+              Dashboard
             </button>
           </nav>
           

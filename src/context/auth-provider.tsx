@@ -20,6 +20,7 @@ interface AuthContextType {
   signIn: (email: string, password: string) => Promise<{ error: any }>;
   signUp: (email: string, password: string) => Promise<{ error: any }>;
   signOut: () => Promise<void>;
+  refreshToken: () => Promise<void>; // Add refresh token function
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -30,6 +31,7 @@ const AuthContext = createContext<AuthContextType>({
   signIn: async () => ({ error: null }),
   signUp: async () => ({ error: null }),
   signOut: async () => {},
+  refreshToken: async () => {},
 });
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
@@ -244,6 +246,31 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  const refreshToken = async () => {
+    debug('Manually refreshing token');
+    try {
+      const { data, error } = await supabase.auth.refreshSession();
+      
+      if (error) {
+        debug('Error refreshing token manually:', error.message);
+        console.error('Error refreshing token:', error);
+        return;
+      }
+      
+      if (data.session) {
+        debug('Token refreshed successfully');
+        setSession(data.session);
+        setUser(data.session.user);
+        return;
+      } else {
+        debug('No session returned from refresh');
+      }
+    } catch (error) {
+      console.error('Unexpected error refreshing token:', error);
+      debug('Unexpected error refreshing token:', error);
+    }
+  };
+
   const value = {
     user,
     session,
@@ -252,6 +279,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     signIn,
     signUp,
     signOut,
+    refreshToken,
   };
 
   debug(`Auth context value - user: ${user?.email || 'null'}, loading: ${loading}`);

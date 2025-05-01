@@ -1,11 +1,13 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { Check, ChevronRight, Star, Sparkles, Dumbbell, Timer, Trophy } from 'lucide-react';
-import { HeroGlassmorphic, GlassmorphicBackground } from '@/components/ui/hero-glassmorphic';
+import { Check, ChevronRight, Star, Sparkles, Dumbbell, Timer, Trophy, ArrowRight } from 'lucide-react';
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import HeroSection from './components/HeroSection';
 
 // Counter Component for price animation
 const Counter = ({ from, to }: { from: number; to: number }) => {
@@ -39,6 +41,55 @@ const Counter = ({ from, to }: { from: number; to: number }) => {
   
   return <span ref={nodeRef}>{from}</span>;
 };
+
+// Hero Component for coaching page
+const Hero = ({ title, subtitle }: { title: string; subtitle: string }) => {
+  return (
+    <section className="relative z-0 flex min-h-[80vh] w-full flex-col items-center justify-center overflow-hidden bg-gradient-to-r from-blue-800 to-indigo-900">
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]" />
+      
+      <div className="relative z-10 container flex justify-center flex-1 flex-col px-5 md:px-10 gap-8 text-center">
+        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white">
+          {title}
+        </h1>
+        {subtitle && (
+          <p className="text-xl text-blue-100/90 max-w-[800px] mx-auto">
+            {subtitle}
+          </p>
+        )}
+      </div>
+    </section>
+  );
+};
+
+// 3D Border Component
+interface Border3DProps extends React.HTMLAttributes<HTMLDivElement> {
+  borderWidth?: number;
+  borderColor?: string;
+}
+
+const Border3D = React.forwardRef<HTMLDivElement, Border3DProps>(
+  ({ className, children, borderWidth = 6, borderColor = "rgba(99, 102, 241, 0.4)", ...props }, ref) => {
+    return (
+      <div
+        ref={ref}
+        className={cn("relative", className)}
+        style={{
+          boxShadow: `
+            ${borderWidth}px ${borderWidth}px 0 0 ${borderColor},
+            ${borderWidth * 2}px ${borderWidth * 2}px 0 0 rgba(99, 102, 241, 0.2)
+          `,
+          transform: "translate(-4px, -4px)",
+          transition: "transform 0.2s, box-shadow 0.2s",
+        }}
+        {...props}
+      >
+        {children}
+      </div>
+    );
+  }
+);
+Border3D.displayName = "Border3D";
 
 export default function Coaching() {
   return <CoachingContent />;
@@ -117,25 +168,8 @@ function CoachingContent() {
 
   return (
     <div className="min-h-screen bg-white">
-      <GlassmorphicBackground />
-      
-      {/* Hero Section */}
-      <section className="relative py-32 overflow-hidden isolate">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <div className="text-center">
-            <h1 className="text-5xl md:text-7xl font-bold text-white mb-8 tracking-tight">
-              Expert Coaching for{' '}
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-blue-500 to-indigo-400">
-                Every Level
-              </span>
-            </h1>
-            <p className="text-xl text-white/70 max-w-3xl mx-auto mb-12">
-              Join our expert coaching program and achieve your fitness goals faster than ever. 
-              Get personalized guidance, proven workout plans, and continuous support.
-            </p>
-          </div>
-        </div>
-      </section>
+      {/* Hero Section - Using our enhanced component */}
+      <HeroSection />
 
       {/* Pricing Toggle */}
       <div className="flex items-center justify-center space-x-4 mb-12 mt-8">

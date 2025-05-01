@@ -40,72 +40,23 @@ export default function HeroSection() {
   return (
     <section
       className={cn(
-        "relative z-0 flex min-h-[90vh] w-full flex-col items-center justify-center overflow-hidden rounded-md bg-background",
+        "relative z-0 flex min-h-[80vh] w-full flex-col items-center justify-center overflow-hidden bg-gradient-to-r from-blue-800 to-indigo-900",
       )}
     >
-      {/* Animated background elements */}
-      <div className="absolute inset-0 z-0">
-        {/* Animated gradient orbs */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 0.7, scale: 1 }}
-          transition={{ 
-            duration: 3, 
-            repeat: Infinity, 
-            repeatType: "reverse",
-            ease: "easeInOut" 
-          }}
-          className="absolute top-1/4 right-1/4 h-64 w-64 rounded-full bg-gradient-to-r from-purple-200 via-violet-400 to-indigo-600 blur-3xl"
-        />
-        
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 0.5, scale: 1.2 }}
-          transition={{ 
-            duration: 4, 
-            delay: 0.5,
-            repeat: Infinity, 
-            repeatType: "reverse",
-            ease: "easeInOut" 
-          }}
-          className="absolute bottom-1/4 left-1/4 h-72 w-72 rounded-full bg-gradient-to-r from-purple-200 via-violet-400 to-indigo-600 blur-3xl"
-        />
-
-        {/* Animated lines */}
-        <motion.div
-          initial={{ width: "0%", opacity: 0 }}
-          animate={{ width: "60%", opacity: 0.5 }}
-          transition={{ 
-            duration: 2, 
-            ease: "easeInOut",
-            delay: 0.8
-          }}
-          className="absolute top-1/3 left-0 h-px bg-primary/60"
-        />
-        
-        <motion.div
-          initial={{ width: "0%", opacity: 0 }}
-          animate={{ width: "40%", opacity: 0.3 }}
-          transition={{ 
-            duration: 2, 
-            ease: "easeInOut",
-            delay: 1.2
-          }}
-          className="absolute bottom-1/3 right-0 h-px bg-primary/60"
-        />
-      </div>
-
+      {/* Gradient background overlay */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]" />
+      
       {/* Content */}
-      <div className="relative z-10 container px-4 md:px-6">
+      <div className="relative z-10 container px-4 md:px-6 max-w-6xl mx-auto">
         <div className="flex flex-col items-center text-center space-y-8">
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
-            className="inline-flex items-center justify-center px-4 py-1.5 rounded-full border border-border bg-background/50 backdrop-blur-sm"
+            className="inline-flex items-center justify-center px-4 py-1.5 rounded-full border border-blue-200/30 bg-blue-900/20 backdrop-blur-sm"
           >
-            <Sparkles className="w-4 h-4 mr-2 text-primary" />
-            <span className="text-sm font-medium">Personalized Coaching</span>
+            <Sparkles className="w-4 h-4 mr-2 text-blue-300" />
+            <span className="text-sm font-medium text-blue-100">Personalized Coaching</span>
           </motion.div>
 
           <motion.h1
@@ -113,79 +64,50 @@ export default function HeroSection() {
             initial="hidden"
             animate="visible"
             variants={textVariants}
-            className="text-5xl sm:text-6xl md:text-7xl font-bold tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-purple-200 via-violet-400 to-indigo-600"
+            className="text-5xl sm:text-6xl md:text-7xl font-bold tracking-tighter text-white"
           >
-            Every Level
+            Expert Fitness Coaching <br />
+            For Every Level
           </motion.h1>
+
+          <motion.div
+            className="w-24 h-1 bg-gradient-to-r from-blue-400 to-indigo-400 rounded-full my-2"
+            initial={{ width: 0 }}
+            animate={{ width: "6rem" }}
+            transition={{ delay: 0.5, duration: 0.8 }}
+          />
 
           <motion.p
             custom={1}
             initial="hidden"
             animate="visible"
             variants={textVariants}
-            className="text-xl text-muted-foreground max-w-[800px]"
+            className="text-xl text-blue-100 max-w-[800px] mt-4"
           >
-            Transform your potential with personalized coaching that adapts to your unique journey. Elevate your skills, mindset, and results.
+            Transform your body with personalized training programs, expert guidance, and proven results. Join our community of successful clients today.
           </motion.p>
-
-          <motion.div 
-            custom={2}
-            initial="hidden"
-            animate="visible"
-            variants={textVariants}
-            className="flex flex-wrap justify-center gap-4 mt-8"
-          >
-            <Button
-              variant="default"
-              size="lg"
-              className="bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white"
-              asChild
-            >
-              <Link href="#pricing">Get Started</Link>
-            </Button>
-            <Button
-              variant="outline"
-              size="lg"
-              className="border-2"
-              asChild
-            >
-              <Link href="#learn-more">Learn More</Link>
-            </Button>
-          </motion.div>
         </div>
       </div>
 
-      {/* Animated floating elements */}
+      {/* Animated decorative elements */}
       <div className="absolute inset-0 z-0 pointer-events-none">
-        {[...Array(6)].map((_, i) => (
-          <motion.div
-            key={i}
-            initial={{ 
-              x: Math.random() * 100 - 50, 
-              y: Math.random() * 100 - 50,
-              opacity: 0,
-              scale: 0.5
-            }}
-            animate={{ 
-              x: Math.random() * 100 - 50, 
-              y: Math.random() * 100 - 50,
-              opacity: [0.2, 0.5, 0.2],
-              scale: [0.8, 1.2, 0.8]
-            }}
-            transition={{ 
-              duration: 5 + Math.random() * 5, 
-              repeat: Infinity,
-              repeatType: "reverse",
-              ease: "easeInOut",
-              delay: i * 0.5
-            }}
-            className="absolute w-2 h-2 rounded-full bg-primary/60"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-            }}
-          />
-        ))}
+        {/* Top-right decorative element */}
+        <div className="absolute top-16 right-16 opacity-20">
+          <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="60" cy="60" r="40" stroke="white" strokeWidth="2" />
+            <circle cx="60" cy="60" r="30" stroke="white" strokeWidth="2" strokeDasharray="5 5" />
+            <circle cx="60" cy="60" r="20" stroke="white" strokeWidth="2" />
+          </svg>
+        </div>
+        
+        {/* Bottom-left decorative element */}
+        <div className="absolute bottom-16 left-16 opacity-20">
+          <svg width="160" height="160" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="30" y="30" width="100" height="100" stroke="white" strokeWidth="2" />
+            <rect x="50" y="50" width="60" height="60" stroke="white" strokeWidth="2" />
+            <rect x="70" y="70" width="20" height="20" stroke="white" strokeWidth="2" />
+          </svg>
+        </div>
       </div>
     </section>
   )

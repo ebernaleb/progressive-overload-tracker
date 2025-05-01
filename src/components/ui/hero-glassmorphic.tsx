@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import React from 'react';
+import { motion } from 'framer-motion';
 import { cn } from "@/lib/utils";
 
 function GlassmorphicShape({
@@ -69,59 +70,49 @@ function GlassmorphicShape({
   );
 }
 
-export function GlassmorphicBackground({ className }: { className?: string }) {
+export const GlassmorphicBackground = () => {
   return (
-    <div className={cn("absolute inset-x-0 top-0 h-[500px] overflow-hidden -z-10", className)}>
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-950/90 via-blue-900/80 to-indigo-900/90 blur-3xl" />
-
-      <div className="absolute inset-0 overflow-hidden">
-        <GlassmorphicShape
-          delay={0.3}
-          width={600}
-          height={140}
-          rotate={12}
-          gradient="from-blue-500/[0.15]"
-          className="left-[-10%] md:left-[-5%] top-[15%] md:top-[20%]"
-        />
-
-        <GlassmorphicShape
-          delay={0.5}
-          width={500}
-          height={120}
-          rotate={-15}
-          gradient="from-indigo-500/[0.15]"
-          className="right-[-5%] md:right-[0%] top-[30%] md:top-[35%]"
-        />
-
-        <GlassmorphicShape
-          delay={0.4}
-          width={300}
-          height={80}
-          rotate={-8}
-          gradient="from-violet-500/[0.15]"
-          className="left-[5%] md:left-[10%] top-[45%] md:top-[50%]"
-        />
-
-        <GlassmorphicShape
-          delay={0.6}
-          width={200}
-          height={60}
-          rotate={20}
-          gradient="from-blue-400/[0.15]"
-          className="right-[15%] md:right-[20%] top-[10%] md:top-[15%]"
-        />
-
-        <GlassmorphicShape
-          delay={0.7}
-          width={150}
-          height={40}
-          rotate={-25}
-          gradient="from-indigo-400/[0.15]"
-          className="left-[20%] md:left-[25%] top-[5%] md:top-[10%]"
-        />
-      </div>
-
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-white pointer-events-none" />
+    <div className="fixed inset-0 -z-10 overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-indigo-900 to-purple-900" />
+      <div className="absolute inset-0 bg-[url('/images/noise.png')] opacity-[0.03] mix-blend-soft-light" />
+      
+      {/* Animated Blobs */}
+      <motion.div
+        initial={{ x: "-50%", y: "-50%" }}
+        animate={{ 
+          x: ["-50%", "-30%", "-50%", "-70%", "-50%"],
+          y: ["-50%", "-30%", "-50%", "-30%", "-50%"] 
+        }}
+        transition={{ 
+          repeat: Infinity, 
+          duration: 30,
+          ease: "easeInOut" 
+        }}
+        className="absolute left-1/2 top-1/2 h-[500px] w-[500px] rounded-full bg-gradient-to-r from-blue-500/30 to-indigo-500/30 blur-3xl"
+      />
+      
+      <motion.div
+        initial={{ x: "-50%", y: "-50%" }}
+        animate={{ 
+          x: ["-50%", "-70%", "-50%", "-30%", "-50%"],
+          y: ["-50%", "-70%", "-50%", "-70%", "-50%"] 
+        }}
+        transition={{ 
+          repeat: Infinity, 
+          duration: 25,
+          ease: "easeInOut" 
+        }}
+        className="absolute left-1/2 top-1/2 h-[600px] w-[600px] rounded-full bg-gradient-to-r from-purple-500/20 to-pink-500/20 blur-3xl"
+      />
     </div>
   );
-} 
+};
+
+export const HeroGlassmorphic = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <div className="relative">
+      <GlassmorphicBackground />
+      {children}
+    </div>
+  );
+}; 
